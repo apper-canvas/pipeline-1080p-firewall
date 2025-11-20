@@ -29,41 +29,41 @@ const DealCard = ({ deal, contact, onStageChange, isDragging = false }) => {
       }}
     >
       <div className="flex items-start justify-between mb-3">
-        <h4 className="font-medium text-gray-900 text-sm leading-tight flex-1 mr-2">
-          {deal.title}
+<h4 className="font-medium text-gray-900 text-sm leading-tight flex-1 mr-2">
+          {deal.title_c || deal.title || deal.Name}
         </h4>
         <ApperIcon name="GripVertical" className="w-4 h-4 text-gray-400 flex-shrink-0" />
       </div>
       
       <div className="space-y-2 mb-3">
-        <div className="text-lg font-bold text-gray-900">
-          {formatCurrency(deal.value)}
+<div className="text-lg font-bold text-gray-900">
+          {formatCurrency(deal.value_c || deal.value)}
         </div>
         
         <div className="flex items-center justify-between">
-          <Badge variant={deal.stage.toLowerCase()}>
-            {deal.stage}
+<Badge variant={(deal.stage_c || deal.stage)?.toLowerCase()}>
+            {deal.stage_c || deal.stage}
           </Badge>
-          <span className={`text-xs px-2 py-1 rounded-full ${getProbabilityColor(deal.probability)}`}>
-            {deal.probability}%
+<span className={`text-xs px-2 py-1 rounded-full ${getProbabilityColor(deal.probability_c || deal.probability)}`}>
+            {deal.probability_c || deal.probability}%
           </span>
         </div>
       </div>
       
       <div className="space-y-1 mb-3 text-xs text-gray-600">
         <div className="flex items-center space-x-1">
-          <ApperIcon name="User" className="w-3 h-3" />
-          <span>{contact?.name || 'Unknown Contact'}</span>
+<ApperIcon name="User" className="w-3 h-3" />
+          <span>{contact?.Name || contact?.name || 'Unknown Contact'}</span>
         </div>
         <div className="flex items-center space-x-1">
-          <ApperIcon name="Calendar" className="w-3 h-3" />
-          <span>Close: {format(new Date(deal.expectedCloseDate), 'MMM d')}</span>
+<ApperIcon name="Calendar" className="w-3 h-3" />
+          <span>Close: {format(new Date(deal.expectedCloseDate_c || deal.expectedCloseDate), 'MMM d')}</span>
         </div>
       </div>
       
-      {deal.notes && (
+{(deal.notes_c || deal.notes) && (
         <p className="text-xs text-gray-500 line-clamp-2">
-          {deal.notes}
+          {deal.notes_c || deal.notes}
         </p>
       )}
     </div>

@@ -61,15 +61,18 @@ const Layout = () => {
               </nav>
             </div>
 
-            {/* Mobile menu button */}
-            <div className="md:hidden flex items-center">
-              <button
-                type="button"
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-primary hover:bg-primary/5 transition-colors duration-200"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              >
-                <ApperIcon name={mobileMenuOpen ? "X" : "Menu"} className="w-6 h-6" />
-              </button>
+{/* User actions & Mobile menu button */}
+            <div className="flex items-center space-x-3">
+              <UserActions />
+              <div className="md:hidden">
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-primary hover:bg-primary/5 transition-colors duration-200"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                >
+                  <ApperIcon name={mobileMenuOpen ? "X" : "Menu"} className="w-6 h-6" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -113,3 +116,37 @@ const Layout = () => {
 }
 
 export default Layout
+// User Actions Component
+import { useAuth } from '@/layouts/Root'
+import { useSelector } from 'react-redux'
+import Button from '@/components/atoms/Button'
+
+function UserActions() {
+  const { logout } = useAuth()
+  const { user, isAuthenticated } = useSelector((state) => state.user)
+
+  if (!isAuthenticated) return null
+
+  return (
+    <div className="hidden md:flex items-center space-x-4">
+      <div className="flex items-center space-x-2">
+        <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center">
+          <span className="text-white font-medium text-sm">
+            {user?.firstName?.[0] || user?.Name?.[0] || 'U'}
+          </span>
+        </div>
+        <span className="text-sm text-gray-700">
+          {user?.firstName || user?.Name || 'User'}
+        </span>
+      </div>
+      <Button
+        variant="secondary"
+        size="sm"
+        onClick={logout}
+        icon="LogOut"
+      >
+        Logout
+      </Button>
+    </div>
+  )
+}

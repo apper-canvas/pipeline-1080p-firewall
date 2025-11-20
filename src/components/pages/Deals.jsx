@@ -32,12 +32,12 @@ const Deals = () => {
 
   useEffect(() => {
     if (searchQuery) {
-      const filtered = deals.filter(deal => {
-        const contact = contacts.find(c => c.Id === deal.contactId)
+const filtered = deals.filter(deal => {
+        const contact = contacts.find(c => c.Id === (deal.contactId_c?.Id || deal.contactId_c || deal.contactId))
         return (
-          deal.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          deal.stage.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          (contact && contact.name.toLowerCase().includes(searchQuery.toLowerCase()))
+          (deal.title_c || deal.title || deal.Name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (deal.stage_c || deal.stage || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (contact && (contact.Name || contact.name || '').toLowerCase().includes(searchQuery.toLowerCase()))
         )
       })
       setFilteredDeals(filtered)
@@ -122,17 +122,17 @@ const Deals = () => {
     }).format(value)
   }
 
-  const getContactById = (contactId) => {
-    return contacts.find(contact => contact.Id === contactId)
+const getContactById = (contactId) => {
+    return contacts.find(contact => contact.Id === (contactId?.Id || contactId))
   }
 
-  const sortedDeals = [...filteredDeals].sort((a, b) => {
-    let aValue = a[sortField]
-    let bValue = b[sortField]
+const sortedDeals = [...filteredDeals].sort((a, b) => {
+    let aValue = a[sortField] || a[`${sortField}_c`]
+    let bValue = b[sortField] || b[`${sortField}_c`]
     
     if (sortField === 'updatedAt' || sortField === 'createdAt' || sortField === 'expectedCloseDate') {
-      aValue = new Date(aValue)
-      bValue = new Date(bValue)
+      aValue = new Date(aValue || a.updatedAt_c || a.CreatedOn)
+      bValue = new Date(bValue || b.updatedAt_c || b.CreatedOn)
     }
     
     if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1
@@ -178,8 +178,8 @@ const Deals = () => {
             <div className="text-gray-600">
               {filteredDeals.length} of {deals.length} deals
             </div>
-            <div className="font-medium text-gray-900">
-              Total Value: {formatCurrency(filteredDeals.reduce((sum, deal) => sum + deal.value, 0))}
+<div className="font-medium text-gray-900">
+              Total Value: {formatCurrency(filteredDeals.reduce((sum, deal) => sum + (deal.value_c || deal.value || 0), 0))}
             </div>
           </div>
         </div>
@@ -253,17 +253,17 @@ const Deals = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {sortedDeals.map((deal) => {
-                    const contact = getContactById(deal.contactId)
+{sortedDeals.map((deal) => {
+                    const contact = getContactById(deal.contactId_c?.Id || deal.contactId_c || deal.contactId)
                     return (
                       <tr key={deal.Id} className="hover:bg-gray-50 transition-colors">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-medium text-gray-900">
-                            {deal.title}
+                            {deal.title_c || deal.title || deal.Name}
                           </div>
-                          {deal.notes && (
+                          {(deal.notes_c || deal.notes) && (
                             <div className="text-sm text-gray-500 truncate max-w-xs">
-                              {deal.notes}
+                              {deal.notes_c || deal.notes}
                             </div>
                           )}
                         </td>
@@ -271,11 +271,15 @@ const Deals = () => {
                           {contact ? (
                             <div>
                               <div className="text-sm font-medium text-gray-900">
-                                {contact.name}
+                                {contact.Name || contact.name}
                               </div>
                               <div className="text-sm text-gray-500">
-                                {contact.company}
+                                {contact.company_c || contact.company}
                               </div>
+                            </div>
+                          ) : deal.contactId_c?.Name ? (
+                            <div className="text-sm font-medium text-gray-900">
+                              {deal.contactId_c.Name}
                             </div>
                           ) : (
                             <div className="text-sm text-gray-500">Unknown Contact</div>
@@ -283,21 +287,21 @@ const Deals = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-medium text-gray-900">
-                            {formatCurrency(deal.value)}
+                            {formatCurrency(deal.value_c || deal.value)}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <Badge variant={deal.stage.toLowerCase()}>
-                            {deal.stage}
+                          <Badge variant={(deal.stage_c || deal.stage)?.toLowerCase()}>
+                            {deal.stage_c || deal.stage}
                           </Badge>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {deal.probability}%
+                            {deal.probability_c || deal.probability}%
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {format(new Date(deal.expectedCloseDate), 'MMM d, yyyy')}
+                          {format(new Date(deal.expectedCloseDate_c || deal.expectedCloseDate), 'MMM d, yyyy')}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <div className="flex items-center justify-end space-x-2">

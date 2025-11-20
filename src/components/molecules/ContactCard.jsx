@@ -8,37 +8,37 @@ const ContactCard = ({ contact }) => {
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center">
-            <span className="text-white font-semibold text-lg">
-              {contact.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
+<span className="text-white font-semibold text-lg">
+              {(contact.Name || contact.name)?.split(' ').map(n => n[0]).join('').substring(0, 2)}
             </span>
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900">{contact.name}</h3>
-            <p className="text-gray-600 text-sm">{contact.company}</p>
+<h3 className="font-semibold text-gray-900">{contact.Name || contact.name}</h3>
+            <p className="text-gray-600 text-sm">{contact.company_c || contact.company}</p>
           </div>
         </div>
       </div>
       
       <div className="space-y-2 mb-4">
         <div className="flex items-center space-x-2 text-sm text-gray-600">
-          <ApperIcon name="Mail" className="w-4 h-4" />
-          <span>{contact.email}</span>
+<ApperIcon name="Mail" className="w-4 h-4" />
+          <span>{contact.email_c || contact.email}</span>
         </div>
         <div className="flex items-center space-x-2 text-sm text-gray-600">
-          <ApperIcon name="Phone" className="w-4 h-4" />
-          <span>{contact.phone}</span>
+<ApperIcon name="Phone" className="w-4 h-4" />
+          <span>{contact.phone_c || contact.phone}</span>
         </div>
       </div>
       
-      {contact.notes && (
+{(contact.notes_c || contact.notes) && (
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-          {contact.notes}
+          {contact.notes_c || contact.notes}
         </p>
       )}
       
       <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-        <span className="text-xs text-gray-500">
-          Updated {format(new Date(contact.updatedAt), 'MMM d, yyyy')}
+<span className="text-xs text-gray-500">
+          Updated {format(new Date(contact.updatedAt_c || contact.updatedAt || contact.ModifiedOn), 'MMM d, yyyy')}
         </span>
         <Link
           to={`/contacts/${contact.Id}`}
