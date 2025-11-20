@@ -1,0 +1,81 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import 'react-toastify/dist/ReactToastify.css';
+
+/* Toast customizations */
+.Toastify__toast {
+  @apply rounded-xl shadow-lg;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.Toastify__toast--success {
+  @apply bg-white border-l-4 border-green-500;
+  color: #1f2937;
+}
+
+.Toastify__toast--error {
+  @apply bg-white border-l-4 border-red-500;
+  color: #1f2937;
+}
+
+.Toastify__toast--info {
+  @apply bg-white border-l-4 border-blue-500;
+  color: #1f2937;
+}
+
+.Toastify__toast--warning {
+  @apply bg-white border-l-4 border-amber-500;
+  color: #1f2937;
+}
+
+.Toastify__progress-bar {
+  @apply bg-gradient-to-r from-primary to-secondary;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
+
+/* Drag and drop styles */
+.drag-preview {
+  @apply opacity-60 rotate-3;
+}
+
+.drop-zone-active {
+  @apply bg-blue-50 border-2 border-dashed border-blue-300;
+}
+
+/* Animation utilities */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    #f0f0f0 0px,
+    #e0e0e0 40px,
+    #f0f0f0 80px
+  );
+  background-size: 200px;
+}
