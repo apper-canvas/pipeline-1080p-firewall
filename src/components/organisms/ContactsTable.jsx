@@ -99,7 +99,7 @@ const ContactsTable = ({ contacts, onEdit, onDelete }) => {
                   <div className="flex items-center">
                     <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center mr-4">
                       <span className="text-white font-medium text-sm">
-                        {contact.name.split(' ').map(n => n[0]).join('').substring(0, 2)}
+{contact.Name ? contact.Name.split(' ').filter(n => n).map(n => n[0]).join('').substring(0, 2) : '??'}
                       </span>
                     </div>
                     <div>
@@ -110,16 +110,16 @@ const ContactsTable = ({ contacts, onEdit, onDelete }) => {
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{contact.company}</div>
+<div className="text-sm text-gray-900">{contact.company_c || '-'}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{contact.email}</div>
+<div className="text-sm text-gray-900">{contact.email_c || '-'}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{contact.phone}</div>
+<div className="text-sm text-gray-900">{contact.phone_c || '-'}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {format(new Date(contact.updatedAt), 'MMM d, yyyy')}
+{contact.updatedAt_c ? format(new Date(contact.updatedAt_c), 'MMM d, yyyy') : '-'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <div className="flex items-center justify-end space-x-2">
