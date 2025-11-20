@@ -5,12 +5,12 @@ import FormField from '@/components/molecules/FormField'
 import { contactService } from '@/services/api/contactService'
 
 const ContactForm = ({ contact = null, onSubmit, onCancel }) => {
-  const [formData, setFormData] = useState({
-    name: contact?.name || '',
-    email: contact?.email || '',
-    phone: contact?.phone || '',
-    company: contact?.company || '',
-    notes: contact?.notes || ''
+const [formData, setFormData] = useState({
+    name: contact?.Name || '',
+    email: contact?.email_c || '',
+    phone: contact?.phone_c || '',
+    company: contact?.company_c || '',
+    notes: contact?.notes_c || ''
   })
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
